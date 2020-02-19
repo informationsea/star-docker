@@ -16,6 +16,10 @@ RUN curl -OL https://github.com/alexdobin/STAR/archive/2.7.3a.tar.gz
 RUN tar xzf 2.7.3a.tar.gz
 
 FROM debian:10-slim
+RUN apt-get update && \
+    apt-get install -y ncurses-base zlib1g liblzma5 libbz2-1.0 curl libcurl4 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 COPY --from=samtools-build /usr/local /usr/local
 COPY --from=download /download/STAR-2.7.3a /opt/STAR-2.7.3a
 ENV PATH=/opt/STAR-2.7.3a/bin/Linux_x86_64_static:${PATH}
